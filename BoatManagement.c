@@ -241,6 +241,7 @@ void giveFunction(char input)
             break;
         case 'R':
         case 'r': 
+        {
             char namer[MAX_CHARACTERS];
             printf("Please enter the boat name                               : ");
             getchar();
@@ -248,8 +249,10 @@ void giveFunction(char input)
             namer[strcspn(namer, "\n")] = 0; 
             removeBoat(namer);
             break;
+        }
         case 'P':
         case 'p':
+        {
             char namep[MAX_CHARACTERS];
             printf("Please enter the boat name                               : ");
             getchar();
@@ -257,6 +260,7 @@ void giveFunction(char input)
             namep[strcspn(namep, "\n")] = 0;
             payment(namep);
             break;
+        }
         case 'M':
         case 'm':
             passMonth();
@@ -264,54 +268,6 @@ void giveFunction(char input)
         default:
             break;
     }
-}
-
-// Function to check Inventory (implementation)
-void inventory()
-{
-    // Sort the boats using compareTo function
-    qsort(boats, nBoats, sizeof(Boat *), compareTo);
-    
-    // Print the boats
-    for (int i = 0; i < nBoats; i++)
-    {
-        if (boats[i] != NULL) {
-            // Print name
-            printf("%-18s", boats[i]->name);
-            // Print length
-            printf("%6d'", boats[i]->length);
-
-            // Print place
-            char* placeString = getPlaceString(boats[i]->place);
-            printf("%13s", placeString);
-            
-            // Print place details
-            switch (boats[i]->place)
-            {
-                case slip:
-                    printf("   ");
-                    printf(" # %3d", boats[i]->placeDetails.slipNumber);
-                    break;
-                case land:
-                    printf("   ");
-                    printf("%6c", boats[i]->placeDetails.landLocation);
-                    break;
-                case trailor:
-                    printf("   ");
-                    printf("%6s", boats[i]->placeDetails.trailorLiscense);
-                    break;
-                case storage:
-                    printf("   ");
-                    printf(" # %3d", boats[i]->placeDetails.storageNumber);
-                    break;
-                default:
-                    break;
-            }
-            // print cost
-            printf("   Owes $%4.2f\n", boats[i]->cost);
-        }
-    }
-    
 }
 
 // Function to check the csv file (implementation)
@@ -401,10 +357,59 @@ void checkCSV(char* csvfile)
     }
 } 
 
-int compareTo(const void *boat1, const void *boat2) {
+int compareTo(const void *boat1, const void *boat2) 
+{
   const Boat *boatA = *(const Boat **)boat1;
   const Boat *boatB = *(const Boat **)boat2;
   return strcasecmp(boatA->name, boatB->name);
+}
+
+// Function to check Inventory (implementation)
+void inventory()
+{
+    // Sort the boats using compareTo function
+    qsort(boats, nBoats, sizeof(Boat *), compareTo);
+    
+    // Print the boats
+    for (int i = 0; i < nBoats; i++)
+    {
+        if (boats[i] != NULL) {
+            // Print name
+            printf("%-18s", boats[i]->name);
+            // Print length
+            printf("%6d'", boats[i]->length);
+
+            // Print place
+            char* placeString = getPlaceString(boats[i]->place);
+            printf("%13s", placeString);
+            
+            // Print place details
+            switch (boats[i]->place)
+            {
+                case slip:
+                    printf("   ");
+                    printf(" # %3d", boats[i]->placeDetails.slipNumber);
+                    break;
+                case land:
+                    printf("   ");
+                    printf("%6c", boats[i]->placeDetails.landLocation);
+                    break;
+                case trailor:
+                    printf("   ");
+                    printf("%6s", boats[i]->placeDetails.trailorLiscense);
+                    break;
+                case storage:
+                    printf("   ");
+                    printf(" # %3d", boats[i]->placeDetails.storageNumber);
+                    break;
+                default:
+                    break;
+            }
+            // print cost
+            printf("   Owes $%4.2f\n", boats[i]->cost);
+        }
+    }
+    
 }
 
 // Function to Add a Boat (implementation)
